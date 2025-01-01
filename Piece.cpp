@@ -61,8 +61,11 @@ bool Queen::canMove(int startRow, int startCol, int endRow, int endCol)
 			{
 				if (_board[i][startRow] != '#') // Blocked by a piece
 				{
-					throw PieceInDst();
-					return false;
+					char piece = _board[i][startRow];
+					if ((isupper(piece) && isupper(_board[startCol][startRow])) || (islower(piece) && islower(_board[startCol][startRow]))) {
+						throw PieceInDst(); // Blocked by a piece of the same color
+						return false;
+					}
 				}
 			}
 			return true;
@@ -80,8 +83,11 @@ bool Queen::canMove(int startRow, int startCol, int endRow, int endCol)
 		{
 			if (_board[x][y] != '#') // Blocked by a piece
 			{
-				throw PieceInDst();
-				return false;
+				char piece = _board[x][y];
+				if ((isupper(piece) && isupper(_board[startCol][startRow])) || (islower(piece) && islower(_board[startCol][startRow]))) {
+					throw PieceInDst(); // Blocked by a piece of the same color
+					return false;
+				}
 			}
 
 			x += dx;
@@ -109,7 +115,7 @@ bool Pawn::canMove(int startRow, int startCol, int endRow, int endCol)
 		if (startCol == endCol && startRow == 6 && endRow == 4 && _board[endCol][endRow] == '#' && _board[startCol][startRow - 1] == '#') {
 			return true; // First move: can move two squares forward
 		}
-		if (abs(startCol - endCol) == 1 && startRow - endRow == 1 && _board[endCol][endRow] != '#' && _board[endCol][endRow] != 'P') {
+		if (abs(startCol - endCol) == 1 && startRow - endRow == 1 && _board[endCol][endRow] != '#' && islower(_board[endCol][endRow])) {
 			return true; // Capture diagonally
 		}
 		throw illegalMovement();
@@ -122,7 +128,7 @@ bool Pawn::canMove(int startRow, int startCol, int endRow, int endCol)
 		if (startCol == endCol && startRow == 1 && endRow == 3 && _board[endCol][endRow] == '#' && _board[startCol][startRow - 1] == '#') {
 			return true; // First move: can move two squares forward
 		}
-		if (abs(startCol - endCol) == 1 && startRow - endRow == 1 && _board[endCol][endRow] != '#' && _board[endCol][endRow] != 'P') {
+		if (abs(startCol - endCol) == 1 && startRow - endRow == 1 && _board[endCol][endRow] != '#' && isupper(_board[endCol][endRow])) {
 			return true; // Capture diagonally
 		}
 		throw illegalMovement();
@@ -173,8 +179,11 @@ bool Rook::canMove(int startRow, int startCol, int endRow, int endCol)
 		{
 			if (_board[i][startRow] != '#') // Blocked by a piece
 			{
-				throw PieceInDst();
-				return false;
+				char piece = _board[i][startRow];
+				if ((isupper(piece) && isupper(_board[startCol][startRow])) || (islower(piece) && islower(_board[startCol][startRow]))) {
+					throw PieceInDst(); // Blocked by a piece of the same color
+					return false;
+				}
 			}
 		}
 		return true;
@@ -200,7 +209,11 @@ bool Bishop::canMove(int startRow, int startCol, int endRow, int endCol)
 		{
 			if (_board[x][y] != '#') // Blocked by a piece
 			{
-				return false;
+				char piece = _board[x][y];
+				if ((isupper(piece) && isupper(_board[startCol][startRow])) || (islower(piece) && islower(_board[startCol][startRow]))) {
+					throw PieceInDst(); // Blocked by a piece of the same color
+					return false;
+				}
 			}
 
 			x += dx;

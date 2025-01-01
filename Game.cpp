@@ -80,7 +80,9 @@ std::string Game::executeMove(std::string start, std::string end)
 	try
 	{
 		Board::movePiece(start, end);
+		playerTurn.switchTurn();
 		return "success";
+		
 	}
 	catch(const std::exception& e)
 	{

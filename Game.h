@@ -6,6 +6,7 @@
 class Game : public Board
 {
 private:
+	PlayerTurn playerTurn;
 	char  _starterBoard[1024];
 	Pipe p;
 	char sendMsg[2];
